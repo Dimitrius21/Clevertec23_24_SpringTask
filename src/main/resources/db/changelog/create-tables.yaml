@@ -1,0 +1,91 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_user
+      author: dmitri
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: nick_name
+                  type: VARCHAR(255)
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+  - changeSet:
+      id: create_channel
+      author: dmitri
+      changes:
+        - createTable:
+            tableName: channels
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: description
+                  type: text
+              - column:
+                  name: author
+                  type: bigint
+                  constraints:
+                    foreignKeyName: author_fk
+                    referencedTableName: users
+                    referencedColumnNames: id
+              - column:
+                  name: create_date
+                  type: date
+              - column:
+                  name: category
+                  type: VARCHAR(255)
+              - column:
+                  name: language
+                  type: VARCHAR(255)
+              - column:
+                  name: avatar
+                  type: bytea
+  - changeSet:
+      id: create_middleware
+      author: dmitri
+      changes:
+        - createTable:
+            tableName: user_channel
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: user_fk
+                    referencedTableName: users
+                    referencedColumnNames: id
+              - column:
+                  name: channel_id
+                  type: bigint
+                  constraints:
+                    foreignKeyName: channel_fk
+                    referencedTableName: channels
+                    referencedColumnNames: id
